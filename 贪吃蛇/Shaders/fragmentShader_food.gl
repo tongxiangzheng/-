@@ -1,0 +1,26 @@
+#version 330 core
+out vec4 FragColor;
+in vec2 texPos;
+in vec2 position;
+uniform vec3 Color;
+void main(){
+	float x=abs(texPos.x);
+	float y=abs(texPos.y);
+	float z=1.0-x*x-y*y;
+	if(z<0){
+		discard;
+	}
+	//FragColor = vec4(Color+max(0.0,texPos.x+texPos.y+z*0.2-0.3)*0.2,sqrt(z)*0.9+0.1);
+	const vec3 lightPos=vec3(0.5,0.5,4),viewPos=vec3(0,0,8);
+	float h=sqrt(z);
+	vec3 pos=vec3(position,0.1*h);//R=0.1
+	vec3 norm=vec3(texPos,h);
+	vec3 light=normalize(lightPos-pos);
+	float lightlength=length(lightPos-pos);
+	vec3 view=normalize(viewPos-pos);
+	float light1=max(dot(norm,light),0);
+	float light2=max(dot(norm,normalize(light+view)),0);
+	float gamma=2.2;
+	FragColor=vec4(pow(Color*(light1*0.3+pow(light2,8)*0.7+0.02)/(1+0.09*lightlength+0.032*lightlength*lightlength),vec3(1.0/gamma)),1.0);
+	gl_FragDepth = 1.01-h;
+}

@@ -1,0 +1,12 @@
+11
+12 1
+123 25
+a 1
+abc 32
+abc123ABC 51
+ade 1
+bc 8
+def 12
+ji 42
+s 9
+sdf 37

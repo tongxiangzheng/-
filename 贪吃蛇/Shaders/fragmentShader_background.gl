@@ -1,0 +1,17 @@
+#version 330 core
+out vec4 FragColor;
+in vec2 texPos;
+in vec2 position;
+uniform vec3 Color;
+void main(){
+	float x=mod(texPos.x+0.0005,0.1);
+	float y=mod(texPos.y+0.0005,0.1);
+	if(texPos.x<-0.995||texPos.y<-0.995||texPos.x>0.995||texPos.y>0.995){
+		FragColor = vec4(0.7,0.1,0.1,1.0);
+	}else if(x<0.004||y<0.004){
+		FragColor = vec4(Color*max(0.002-abs(x-0.002),0.002-abs(y-0.002))*500,1.0);
+	}else{
+		discard;
+	}
+	gl_FragDepth=0.99;
+}
